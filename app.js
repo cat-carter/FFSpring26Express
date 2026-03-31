@@ -36,11 +36,30 @@ app.get('/', function (req, res, next) {
   res.render('index', { title: 'XID Program' });
 });
 
+app.get('/page2', function (req, res, next) {
+  res.render('index', { title: 'Page 2' });
+});
+
+app.get('/:name', function (req, res, next) {
+  console.log(req)
+  res.render('index', { title: req.params.name });
+});
+
+app.get('/page2', function (req, res, next) {
+  res.render('index', { title: 'Page 2' });
+});
+
+app.get('/form', function (req, res, next) {
+  res.render('form', { title: 'Form' });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+
+
 
 // error handler
 app.use(function(err, req, res, next) {
