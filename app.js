@@ -44,6 +44,10 @@ app.get('/form', function (req, res, next) {
   res.render('form', { title: 'Form' });
 });
 
+app.post('/form', function(res, res, next) {
+  console.log(req.body.firstname);
+  res.render('formresponse', {firstname:req.body.firstname, lastname:req.body.lastname});
+});
 
 app.get('/page2', function (req, res, next) {
   res.render('index', { title: 'Page 2' });
