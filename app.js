@@ -40,17 +40,18 @@ app.get('/page2', function (req, res, next) {
   res.render('index', { title: 'Page 2' });
 });
 
-app.get('/:name', function (req, res, next) {
-  console.log(req)
-  res.render('index', { title: req.params.name });
+app.get('/form', function (req, res, next) {
+  res.render('form', { title: 'Form' });
 });
+
 
 app.get('/page2', function (req, res, next) {
   res.render('index', { title: 'Page 2' });
 });
 
-app.get('/form', function (req, res, next) {
-  res.render('form', { title: 'Form' });
+app.get('/:name', function (req, res, next) {
+  console.log(req)
+  res.render('index', { title: req.params.name });
 });
 
 // catch 404 and forward to error handler
