@@ -46,7 +46,7 @@ app.get('/form', function (req, res, next) {
 
 app.post('/form', function(res, res, next) {
   console.log(req.body.firstname);
-  res.render('formresponse', {firstname:req.body.firstname, lastname:req.body.lastname});
+  res.render('formresponse',req.body);
 });
 
 app.get('/page2', function (req, res, next) {
