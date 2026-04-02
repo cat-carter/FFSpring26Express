@@ -5,7 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('hbs');//added
 const fs = require('fs');
-
+const { DataTypes } = require('sequelize');
+const { Sequelize } = require('sequelize');
+const { ppid } = require('process');
 
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
@@ -30,6 +32,20 @@ hbs.registerPartials(path.join(__dirname, 'views', 'partials'))
 hbs.registerPartial('partial_name', 'partial value');
 
 
+//Setup out database
+const storage = path.join(_dirname,'..','data','database.sqlite')
+
+const sequelize = new Sequelize({
+  dialect:'sqlite',
+  dialectModule:require('better-sqlite3'),
+  storage,
+  logging:false
+});
+
+const task = sequelize.define('Task',{
+  name:{type: DataTypes.STRING,allowNull:false},
+  description:{type:DataTypes.TEXT}
+});
 
 /* GET home page. */
 app.get('/', function (req, res, next) {
@@ -53,9 +69,42 @@ app.get('/page2', function (req, res, next) {
   res.render('index', { title: 'Page 2' });
 });
 
+app.get('/guess', function (req, res, next) {
+  res.render('guess', { title: 'Guess' });
+});
+
+app.post('/guess', function (req, res, next) {
+  console.log(req.body.guess);
+  let randomnumber = Math.floor(Math.random() * 10);
+  console.log(randomnumber);
+  if(randomnumber == Number)req.body.guess)){
+    console.log("you guessed correctly");
+    response = "you guessed correctly";
+  }else{
+    console.log("you guessed poorly");
+    response = "your guessed poorly";
+  }
+
+  let templateResponse = 
+});
+
 app.get('/:name', function (req, res, next) {
   console.log(req)
   res.render('index', { title: req.params.name });
+});
+
+app.get('/addtask', function (req, res) {
+  res.render('addtask', { title: 'Add Task' });
+});
+
+app.post('/addtask', async function (req, res, next) {
+  try {
+    const created = await Task.create({ name:req.body.name, description: req.body.description });
+    // render a clearer confirmation page for the saved task
+   res.json(req.body);
+  } catch (err) {
+    next(err);
+     }
 });
 
 // catch 404 and forward to error handler
