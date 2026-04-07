@@ -118,6 +118,7 @@ app.get('/tasks', async function(req,res,next){
   try{
     const tasks = await Task.findAll({order:[['createdAt','DESC']]});
     //res.json(tasks);
+    res.render('tasks',{title:'Tasks', tasks});
   }catch(err){
     next(err);
   }
