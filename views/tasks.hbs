@@ -3,7 +3,7 @@
 
 {{#each tasks}}
 
-<p>{{this.id}} - {{this.name}} - {{this.description}} - {{this.createdAt}}</p>
+<p>{{this.id}} - {{this.name}} - {{this.description}} - {{this.createdAt}} <a href= "/tasks/{{this.id}}/delete">Delete</a></p>
 {{/each}}
 
 {{/if}}
