@@ -7,6 +7,8 @@ var hbs = require('hbs');//added
 const fs = require('fs');
 const { Sequelize } = require('sequelize');
 const { DataTypes } = require('sequelize');
+var dotenv = require('dotenv').config();
+
 
 
 // var indexRouter = require('./routes/index');
@@ -32,18 +34,20 @@ hbs.registerPartials(path.join(__dirname, 'views', 'partials'))
 hbs.registerPartial('partial_name', 'partial value');
 
 //Setup out database
-const dataDirectory = path.join(__dirname, 'data');
-const storage = path.join(dataDirectory, 'database.sqlite');
+const dbUrl = process.env.NODE_ENV === 'production'
+  ? process.env.DATABASE_URL_PROD
+  : process.env.DATABASE_URL_LOCAL;
 
-//Ensure the data directory exists
-fs.mkdirSync(dataDirectory, { recursive: true });
-
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage,
-  logging:false
+const sequelize = new Sequelize(dbUrl, {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  },
+  logging: false
 });
-
 
 //once added you'll have to delete the database.sqlite file to reset the database and create the new tables with the new models
 const List = sequelize.define('List', {
