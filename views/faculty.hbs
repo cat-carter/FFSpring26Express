@@ -1,14 +1,13 @@
-<h1>Faculty Course Submission</h1>
-
 <div class="card">
   <h1>Faculty Course Submission</h1>
 
-  <div class="form-group">
-  <label>Program</label>
-  <select id="programSelect" name="program" required onchange="filterCourses()">
-    <option value="">-- Select program --</option>
-    <option value="MHA">MHA</option>
-    <option value="HEMBA">HEMBA</option>
+  <form method="POST" action="/faculty">
+    <div class="form-group">
+      <label>Program</label>
+      <select id="programSelect" name="program" required onchange="filterCourses()">
+        <option value="">-- Select program --</option>
+        <option value="MHA">MHA</option>
+        <option value="HEMBA">HEMBA</option>
   </select>
 </div>
 
