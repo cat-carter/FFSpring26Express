@@ -284,7 +284,7 @@ app.get('/seed-check', async function(req, res, next) {
 app.get('/faculty',  async function(req, res, next) {
   try {
     const courses = await Course.findAll();
-    res.render('faculty', { title: 'Faculty Dashboard', courses });
+    res.render('faculty', { title: 'Faculty Submission', coursesJSON: JSON.stringify(courses) });
   } catch (err) {
     next(err);
   }
