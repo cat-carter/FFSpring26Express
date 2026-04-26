@@ -271,7 +271,7 @@ syncDB().then(() => seedDB())
 
 /* GET home page. */
 app.get('/', function (req, res, next) {
-  res.render('index', { title: 'Miami' });
+  res.render('index', { title: 'Accreditation Compass' });
 });
 
 app.get('/seed-check', async function(req, res, next) {
