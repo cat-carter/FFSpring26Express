@@ -116,7 +116,41 @@ async function syncDB(){
     await sequelize.sync({alter: true});
 }
 
-syncDB().catch(console.error);
+async function seedDB() {
+  const count = await Competency.count();
+  if (count > 0) return;
+
+  await Competency.bulkCreate([
+    { name: 'Community Collaboration', domain: 'Boundary Spanning', competencyType: 'Leadership' },
+    { name: 'Organizational Awareness', domain: 'Boundary Spanning', competencyType: 'Leadership' },
+    { name: 'Relationship & Network Development', domain: 'Boundary Spanning', competencyType: 'Leadership' },
+    { name: 'Accountability', domain: 'Execution', competencyType: 'Leadership' },
+    { name: 'Achievement Orientation', domain: 'Execution', competencyType: 'Leadership' },
+    { name: 'Analytical Thinking', domain: 'Execution', competencyType: 'Leadership' },
+    { name: 'Communication Skills 1–Writing', domain: 'Execution', competencyType: 'Leadership' },
+    { name: 'Communication Skills 2–Speaking & Facilitating', domain: 'Execution', competencyType: 'Leadership' },
+    { name: 'Performance Measurement', domain: 'Execution', competencyType: 'Leadership' },
+    { name: 'Process & Quality Improvement', domain: 'Execution', competencyType: 'Leadership' },
+    { name: 'Project Management', domain: 'Execution', competencyType: 'Leadership' },
+    { name: 'Collaboration', domain: 'Relations', competencyType: 'Leadership' },
+    { name: 'Impact & Influence', domain: 'Relations', competencyType: 'Leadership' },
+    { name: 'Interpersonal Understanding', domain: 'Relations', competencyType: 'Leadership' },
+    { name: 'Team Leadership', domain: 'Relations', competencyType: 'Leadership' },
+    { name: 'Change Leadership', domain: 'Transformation', competencyType: 'Leadership' },
+    { name: 'Information Seeking', domain: 'Transformation', competencyType: 'Leadership' },
+    { name: 'Innovation', domain: 'Transformation', competencyType: 'Leadership' },
+    { name: 'Strategic Orientation', domain: 'Transformation', competencyType: 'Leadership' },
+    { name: 'Professional & Social Responsibility', domain: 'Values', competencyType: 'Leadership' },
+    { name: 'Financial Skills', domain: 'Health System Awareness & Business Literacy', competencyType: 'Business' },
+    { name: 'Human Resource Management', domain: 'Health System Awareness & Business Literacy', competencyType: 'Business' },
+    { name: 'Information Technology Management', domain: 'Health System Awareness & Business Literacy', competencyType: 'Business' },
+  ]);
+  console.log('Competencies seeded.');
+}
+
+syncDB()
+  .then(() => seedDB())
+  .catch(console.error);
 
 /* GET home page. */
 app.get('/', function (req, res, next) {
