@@ -4,9 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('hbs');//added
-const fs = require('fs');
 const { Sequelize } = require('sequelize');
 const { DataTypes } = require('sequelize');
+const { setMaxIdleHTTPParsers } = require('http');
 var dotenv = require('dotenv').config();
 
 
@@ -49,29 +49,65 @@ const sequelize = new Sequelize(dbUrl, {
   logging: false
 });
 
-//once added you'll have to delete the database.sqlite file to reset the database and create the new tables with the new models
-const List = sequelize.define('List', {
-  name: { type: DataTypes.STRING, allowNull: false },
+const Competency = sequelize.define('Competency', {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  domain: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  competencyTyle: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+ 
 });
 
-const Task = sequelize.define('Task',{
-  name:{type: DataTypes.STRING,allowNull:false},
-  description:{type: DataTypes.TEXT}
+const Course = sequelize.define('Course', {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  code: { type: DataTypes.STRING, allowNull: false },
+  program : { type: DataTypes.STRING, allowNull: false },
 });
 
-// 1. A List can contain multiple Tasks
-List.hasMany(Task, {
-  onDelete: 'CASCADE'   // If a List is deleted, delete its Tasks
+const CourseCompetency = sequelize.define('CourseCompetency', {});
+
+const Submission = sequelize.define('Submission', {
+  facultyName: {
+    type: DataTypes.STRING,
+    allowNull: false },
+  facultyEmail: {
+      type: DataTypes.STRING,
+      allowNull: false },
+  semester: {
+      type: DataTypes.STRING,
+      allowNull: false },
+ status: {
+      type: DataTypes.STRING,
+      allowNull: false },
 });
 
-// 2. A Task belongs to a single List
-Task.belongsTo(List);
-
-// Define Poll model (kept inline for simplicity)
-const Poll = sequelize.define('Poll', {
-  color: { type: DataTypes.STRING, allowNull: false },
-  amount: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 }
+const StudentScore = sequelize.define('StudentScore', {
+  studentID: {
+    type: DataTypes.STRING,
+    allowNull: false },
+  score: {
+      type: DataTypes.FLOAT,
+      allowNull: false },
 });
+
+Course.belongsToMany(Competency, { through: CourseCompetency });
+Competency.belongsToMany(Course, { through: CourseCompetency });
+
+Submission.belongsTo(Course);
+Course.hasMany(Submission);
+
+StudentScore.belongsTo(Submission);
+Submission.hasMany(StudentScore); 
 
 async function syncDB(){
     await sequelize.sync();
@@ -84,133 +120,7 @@ app.get('/', function (req, res, next) {
   res.render('index', { title: 'Miami' });
 });
 
-app.get('/page2', function (req, res, next) {
-  res.render('index', { title: 'Page 2' });
-});
 
-app.get('/form', function (req, res, next) {
-  res.render('form', { title: 'form' });
-});
-
-app.post('/form', function(req,res,next){
-  console.log(req.body.firstname);
-  //res.render('formresponse',{firstname:req.body.firstname,lastname:req.body.lastname});
-  res.render('formresponse',req.body);
-});
-
-app.get('/guess', function (req, res, next) {
-  res.render('guess', { title: 'form' });
-});
-
-app.post('/guess', function(req,res,next){
-  console.log(req.body.guess);
-  let randomNumber = Math.floor(Math.random() * 10);
-  console.log(randomNumber);
-  let response = "";
-  if(randomNumber == Number(req.body.guess)){
-    console.log("you guessed correctly");
-    response = "you guessed correctly";
-  }else{
-    console.log("you guessed poorly!");
-    response = "you guessed poorly";
-  }
-
-  let templateResponse = {guess: req.body.guess, responsetext:response}
-
-  //res.render('formresponse',{firstname:req.body.firstname,lastname:req.body.lastname});
-  res.render('guessresponse',templateResponse);
-});
-
-
-
-app.get('/addtask',function(req,res,next){
-  res.render('addtask',{title:'Add Task'});
-});
-
-app.post('/addtask', async function(req,res,next){
-  try{
-    const created = await Task.create({name:req.body.name, description: req.body.description});
-    res.json(created);
-  }catch(err){
-    next(err);
-  }
-});
-
-app.get('/addlist', function (req, res, next) {
-  res.render('addlist', { title: 'Add List' });
-});
-
-
-
-app.post('/addlist', async function (req, res, next) {
-  console.log('Received addlist POST:', req.body);
-  try {
-        // req.body is now the clean JSON object
-        const list = await List.create(req.body, {
-            include: [Task]
-        });
-        res.json(list);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: err.message });
-    }
-});
-
-/* GET single-chart route */
-app.get('/chart', async function (req, res, next) {
-  //res.render('charts', { title: 'Chart' });
-  try {
-    const poll = await Poll.findAll({ order: [['createdAt', 'DESC']] });
-
-
-    // render an HTML page with the tasks
-    res.render('chart', { title: 'Chart', poll, pollJSON: JSON.stringify(poll) });
-  } catch (err) {
-    next(err);
-  }
-});
-
-/* POST chart form handler: increment existing color entry or create it, then redirect to /chart */
-app.post('/chart', async function (req, res, next) {
-  try {
-    const color = req.body.color;
-    if (!color) return res.redirect('/chart');
-    // Find existing entry for this color
-    const existing = await Poll.findOne({ where: { color } });
-    if (existing) {
-      // increment and save
-      //existing.amount = (existing.amount || 0) + 1;
-      if (existing.amount) {
-        // If 'existing.amount' exists and is not 0 (it's "truthy")
-        existing.amount = existing.amount + 1;
-      } else {
-        // If 'existing.amount' is missing (undefined) or 0 (it's "falsy")
-        existing.amount = 1;
-      }
-      await existing.save();
-    } else {
-      // create new entry with amount 1
-      await Poll.create({ color, amount: 1 });
-    }
-    // redirect back to the chart page
-    res.redirect('/chart');
-  } catch (err) {
-    next(err);
-  }
-});
-
-app.get('/p5js', async function (req, res, next) {
-  //res.render('p5js', { title: 'p5js' });
-  try {
-    const poll = await Poll.findAll({ order: [['createdAt', 'DESC']] });
-
-
-    // render an HTML page with the tasks
-    res.render('p5js', { title: 'p5js', pollJSON: JSON.stringify(poll) });
-  } catch (err) {
-    next(err);
-  }
-});
 
 app.get('/:name', function (req, res, next) {
   console.log(req);
