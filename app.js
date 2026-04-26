@@ -294,9 +294,8 @@ app.post('/faculty', async function (req, res, next) {
   try {
     const { facultyName, facultyEmail, semester, courseId } = req.body;
     const submission = await Submission.create({ facultyName, facultyEmail, semester, CourseId: courseId });
-    res.json({ success: true, submissionId: submission.id });
-  }res.redirect('/faculty/' + submission.id + '/confrim');
-} catch (err) {
+    res.redirect('/faculty/' + submission.id + '/confirm');
+  } catch (err) {
     next(err);
   }
 });
