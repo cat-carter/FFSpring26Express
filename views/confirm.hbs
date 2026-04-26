@@ -1,0 +1,31 @@
+<div class="card">
+  <h1>Submission Confirmed</h1>
+  <p><strong>Course:</strong> {{course.code}}</p>
+  <p><strong>Faculty:</strong> {{submission.facultyName}}</p>
+  <p><strong>Semester:</strong> {{submission.semester}}</p>
+  <p><strong>Status:</strong> {{submission.status}}</p>
+</div>
+
+<div class="card">
+  <h2>Primary Competencies for This Course</h2>
+  <ul>
+    {{#each competencies}}
+      <li>{{this.name}}</li>
+    {{/each}}
+  </ul>
+</div>
+
+<div class="card">
+  <h2>Submit Student Scores</h2>
+  <p>Download the template below, fill in student IDs and scores (1, 2, or 3) for each competency, then upload the completed file.</p>
+  <br>
+  <a href="/faculty/{{submission.id}}/template" class="btn btn-secondary">Download CSV Template</a>
+  <br><br>
+  <form method="POST" action="/faculty/{{submission.id}}/scores" enctype="multipart/form-data">
+    <div class="form-group">
+      <label>Upload Completed CSV</label>
+      <input type="file" name="csvFile" accept=".csv" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Upload Scores</button>
+  </form>
+</div>

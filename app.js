@@ -300,6 +300,59 @@ app.post('/faculty', async function (req, res, next) {
   }
 });
 
+.get('/faculty/:id/confirm', async function(req, res, next) {
+  try {
+    const submission = await Submission.findByPk(req.params.id, {
+      include: [{ model: Course, include: [{ model: Competency, through: { where: { type: 'Primary' } } }] }]
+    });
+    if (!submission) return next(createError(404));
+    res.render('confirm', {
+      title: 'Submission Confirmed',
+      submission: submission,
+      course: submission.Course,
+      competencies: submission.Course.Competencies
+    });
+  } catch(err) { next(err); }
+});
+
+app.get('/faculty/:id/template', async function(req, res, next) {
+  try {
+    const submission = await Submission.findByPk(req.params.id, {
+      include: [{ model: Course, include: [{ model: Competency, through: { where: { type: 'Primary' } } }] }]
+    });
+    const headers = ['studentId', ...submission.Course.Competencies.map(c => c.name)];
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', `attachment; filename="scores_${submission.Course.code}_${submission.semester}.csv"`);
+    res.send(headers.join(',') + '\n');
+  } catch(err) { next(err); }
+});
+
+app.post('/faculty/:id/scores', upload.single('csvFile'), async function(req, res, next) {
+  try {
+    const lines = req.file.buffer.toString().split('\n').filter(l => l.trim());
+    const headers = lines[0].split(',').map(h => h.trim());
+    const competencyNames = headers.slice(1);
+    const comps = await Competency.findAll({ where: { name: competencyNames } });
+    const compMap = {};
+    comps.forEach(c => { compMap[c.name] = c.id; });
+
+    for (let i = 1; i < lines.length; i++) {
+      const values = lines[i].split(',').map(v => v.trim());
+      const studentId = values[0];
+      if (!studentId) continue;
+      for (let j = 1; j < values.length; j++) {
+        const score = parseInt(values[j]);
+        const compName = headers[j];
+        if (!score || !compMap[compName]) continue;
+        await StudentScore.create({ studentId, score, SubmissionId: req.params.id, CompetencyId: compMap[compName] });
+      }
+    }
+    await Submission.update({ status: 'Submitted' }, { where: { id: req.params.id } });
+    res.redirect('/faculty/' + req.params.id + '/confirm');
+  } catch(err) { next(err); }
+});
+
+
 app.get('/:name', function (req, res, next) {
   console.log(req);
   res.render('index', { title: req.params.name });
