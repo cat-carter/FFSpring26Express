@@ -266,12 +266,19 @@ async function seedDB() {
   }
 }
 
+syncDB().then(() => seedDB())
+.catch(console.error);
+
 /* GET home page. */
 app.get('/', function (req, res, next) {
   res.render('index', { title: 'Miami' });
 });
 
-
+app.get('/seed-check', async function(req, res, next) {
+  const courses = await Course.count();
+  const competencies = await Competency.count();
+  res.json({ courses, competencies });
+});
 
 app.get('/:name', function (req, res, next) {
   console.log(req);
