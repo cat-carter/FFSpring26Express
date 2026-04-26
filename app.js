@@ -59,7 +59,7 @@ const Competency = sequelize.define('Competency', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  competencyTyle: {
+  competencyType: {
     type: DataTypes.STRING,
     allowNull: false
   },
@@ -113,7 +113,7 @@ StudentScore.belongsTo(Submission);
 Submission.hasMany(StudentScore); 
 
 async function syncDB(){
-    await sequelize.sync({alter: true});
+    await sequelize.sync({ force: true});
 }
 
 async function seedDB() {
