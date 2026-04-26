@@ -7,6 +7,8 @@ var hbs = require('hbs');//added
 const { Sequelize } = require('sequelize');
 const { DataTypes } = require('sequelize');
 var dotenv = require('dotenv').config();
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage()});
 
 
 
