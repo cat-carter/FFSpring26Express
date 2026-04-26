@@ -300,7 +300,7 @@ app.post('/faculty', async function (req, res, next) {
   }
 });
 
-.get('/faculty/:id/confirm', async function(req, res, next) {
+app.get('/faculty/:id/confirm', async function(req, res, next) {
   try {
     const submission = await Submission.findByPk(req.params.id, {
       include: [{ model: Course, include: [{ model: Competency, through: { where: { type: 'Primary' } } }] }]
