@@ -7,6 +7,7 @@ var hbs = require('hbs');//added
 const { Sequelize } = require('sequelize');
 const { DataTypes } = require('sequelize');
 const { setMaxIdleHTTPParsers } = require('http');
+const { type } = require('os');
 var dotenv = require('dotenv').config();
 
 
@@ -74,7 +75,9 @@ const Course = sequelize.define('Course', {
   program : { type: DataTypes.STRING, allowNull: false },
 });
 
-const CourseCompetency = sequelize.define('CourseCompetency', {});
+const CourseCompetency = sequelize.define('CourseCompetency', {
+  type: { type: DataTypes.STRING, defaultValue: 'Primary' },
+});
 
 const Submission = sequelize.define('Submission', {
   facultyName: {
@@ -110,7 +113,7 @@ StudentScore.belongsTo(Submission);
 Submission.hasMany(StudentScore); 
 
 async function syncDB(){
-    await sequelize.sync();
+    await sequelize.sync({alter: true});
 }
 
 syncDB().catch(console.error);
