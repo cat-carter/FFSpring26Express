@@ -280,12 +280,31 @@ app.get('/seed-check', async function(req, res, next) {
   res.json({ courses, competencies });
 });
 
+
+app.get('faculty', function (req, res, next) {
+  try {
+    const courses = await Course.findAll();
+    res.render('faculty', { title: 'Faculty Dashboard', courses });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/faculty', async function (req, res, next) {
+  try {
+    const { facultyName, facultyEmail, semester, courseId } = req.body;
+    const submission = await Submission.create({ facultyName, facultyEmail, semester, CourseId: courseId });
+    res.json({ success: true, submissionId: submission.id });
+  }res.redirect('/faculty/' + submission.id + '/confrim');
+} catch (err) {
+    next(err);
+  }
+});
+
 app.get('/:name', function (req, res, next) {
   console.log(req);
   res.render('index', { title: req.params.name });
 });
-
-
 
 
 // catch 404 and forward to error handler

@@ -1,0 +1,37 @@
+h1>Faculty Course Submission</h1>
+
+<form method="POST" action="/faculty">
+  <div>
+    <label>Course</label>
+    <select name="courseId" required>
+      <option value="">-- Select your course --</option>
+      {{#each courses}}
+        <option value="{{this.id}}">{{this.code}} ({{this.program}})</option>
+      {{/each}}
+    </select>
+  </div>
+
+  <div>
+    <label>Faculty Name</label>
+    <input type="text" name="facultyName" required />
+  </div>
+
+  <div>
+    <label>Faculty Email</label>
+    <input type="email" name="facultyEmail" required />
+  </div>
+
+  <div>
+    <label>Semester</label>
+    <select name="semester" required>
+      <option value="">-- Select semester --</option>
+      <option value="Spring 2026">Spring 2026</option>
+      <option value="Summer 2026">Summer 2026</option>
+      <option value="Fall 2026">Fall 2026</option>
+      <option value="Spring 2027">Spring 2027</option>
+      <option value="Fall 2027">Fall 2027</option>
+    </select>
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
