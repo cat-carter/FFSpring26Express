@@ -113,7 +113,7 @@ StudentScore.belongsTo(Submission);
 Submission.hasMany(StudentScore); 
 
 async function syncDB(){
-    await sequelize.sync({ force: true});
+    await sequelize.sync({ alter: true});
 }
 
 async function seedDB() {
