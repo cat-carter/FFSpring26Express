@@ -457,9 +457,9 @@ app.get('/tracker', async function(req, res, next) {
       const sub = s.toJSON();
       sub.hasDocuments = !!sub.syllabusFileName;
       sub.hasScores = sub.status === 'Submitted';
-      if (sub.hasDocuments && sub.hasScores) sub.overallStatus = 'Completed';
-      else if (!sub.hasDocuments) sub.overallStatus = 'Needs Attention';
-      else sub.overallStatus = 'Pending';
+      sub.isCompleted = sub.hasDocuments && sub.hasScores;
+      sub.isAttention = !sub.hasDocuments;
+      sub.isPending = sub.hasDocuments && !sub.hasScores;
 
       if (!semesterMap[sub.semester]) {
         semesterMap[sub.semester] = { semester: sub.semester, submissions: [] };

@@ -37,14 +37,14 @@
               <span class="tracker-badge badge-missing">&#x1F534; Missing</span>
             {{/if}}
           </td>
-          <td>
-            {{#if (eq overallStatus 'Completed')}}
-              <span class="tracker-badge badge-complete">&#x2705; Completed</span>
-            {{else if (eq overallStatus 'Needs Attention')}}
-              <span class="tracker-badge badge-attention">&#x26A0;&#xFE0F; Needs Attention</span>
+         <td>
+            {{#if isCompleted}}
+            <span class="tracker-badge badge-complete">&#x2705; Completed</span>
+            {{else if isAttention}}
+            <span class="tracker-badge badge-attention">&#x26A0;&#xFE0F; Needs Attention</span>
             {{else}}
-              <span class="tracker-badge badge-pending">&#x23F3; Pending</span>
-            {{/if}}
+            <span class="tracker-badge badge-pending">Pending</span>
+           {{/if}}
           </td>
         </tr>
         {{/each}}
