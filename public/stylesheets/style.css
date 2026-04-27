@@ -151,3 +151,29 @@ footer {
   flex-wrap: wrap;
 }
 .chart-row .card { flex: 1; min-width: 280px; }
+
+.tracker-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.tracker-table th {
+  background: #005030;
+  color: #fff;
+  padding: 0.7rem 1rem;
+  text-align: left;
+}
+.tracker-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid #eee;
+}
+.tracker-table tr:hover td { background: #f9f9f9; }
+
+.status-badge {
+  padding: 0.2rem 0.7rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.status-Pending { background: #fff3cd; color: #856404; }
+.status-Submitted { background: #d1e7dd; color: #0a5233; }

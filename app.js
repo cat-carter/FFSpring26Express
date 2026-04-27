@@ -423,6 +423,19 @@ app.get('/admin', async function(req, res, next) {
       nest: true
     });
 
+    app.get('/tracker', async function(req, res, next) {
+  try {
+    const submissions = await Submission.findAll({
+      include: [Course],
+      order: [['createdAt', 'DESC']]
+    });
+    res.render('tracker', {
+      title: 'Submission Tracker',
+      submissions: submissions.map(s => s.toJSON())
+    });
+  } catch(err) { next(err); }
+});
+
 app.get('/:name', function (req, res, next) {
   console.log(req);
   res.render('index', { title: req.params.name });

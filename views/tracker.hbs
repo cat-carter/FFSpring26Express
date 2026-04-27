@@ -1,0 +1,27 @@
+<main>
+  <div class="card">
+    <h1>Submission Tracker</h1>
+    <table class="tracker-table">
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>Faculty</th>
+          <th>Semester</th>
+          <th>Status</th>
+          <th>Submitted</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each submissions}}
+        <tr>
+          <td>{{Course.code}}</td>
+          <td>{{facultyName}}</td>
+          <td>{{semester}}</td>
+          <td><span class="status-badge status-{{status}}">{{status}}</span></td>
+          <td>{{createdAt}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</main>
