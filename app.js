@@ -104,6 +104,18 @@ rubricFile: {
 rubricFileName: { 
     type: DataTypes.STRING, 
     allowNull: true },
+higherTeachingPct: { 
+    type: DataTypes.INTEGER, 
+    allowNull: false, defaultValue: 0 },
+lowerTeachingPct: { 
+    type: DataTypes.INTEGER, 
+    allowNull: false, defaultValue: 0 },
+higherAssessmentPct: { 
+    type: DataTypes.INTEGER, 
+    allowNull: false, defaultValue: 0 },
+lowerAssessmentPct: { 
+    type: DataTypes.INTEGER, 
+    allowNull: false, defaultValue: 0 },
 
 });
 
@@ -307,7 +319,7 @@ app.get('/faculty',  async function(req, res, next) {
 
 app.post('/faculty', upload.fields([{ name: 'syllabusFile', maxCount: 1 }, { name: 'rubricFile', maxCount: 1 }]), async function(req, res, next) {
   try {
-    const { facultyName, facultyEmail, semester, courseId } = req.body;
+    const { facultyName, facultyEmail, semester, courseId, higherTeachingPct, lowerTeachingPct, higherAssessmentPct, lowerAssessmentPct } = req.body;
     const syllabus = req.files['syllabusFile'] ? req.files['syllabusFile'][0] : null;
     const rubric = req.files['rubricFile'] ? req.files['rubricFile'][0] : null;
     const submission = await Submission.create({

@@ -50,6 +50,34 @@
   <input type="file" name="rubricFile" accept=".pdf,.doc,.docx" />
 </div>
 
+<fieldset>
+  <legend>Teaching & Learning Methods</legend>
+
+  <div class="form-group">
+    <label>Higher-Level Teaching/Learning %</label>
+    <input type="number" name="higherTeachingPct" min="0" max="100" required />
+  </div>
+
+  <div class="form-group">
+    <label>Lower-Level Teaching/Learning %</label>
+    <input type="number" name="lowerTeachingPct" min="0" max="100" required />
+  </div>
+</fieldset>
+
+<fieldset>
+  <legend>Assessment Methods</legend>
+
+  <div class="form-group">
+    <label>Higher-Level Assessment %</label>
+    <input type="number" name="higherAssessmentPct" min="0" max="100" required />
+  </div>
+
+  <div class="form-group">
+    <label>Lower-Level Assessment %</label>
+    <input type="number" name="lowerAssessmentPct" min="0" max="100" required />
+  </div>
+</fieldset>
+
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>

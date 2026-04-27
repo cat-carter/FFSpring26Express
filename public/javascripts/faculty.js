@@ -20,3 +20,23 @@ function filterCourses() {
   courseSelect.disabled = false;
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelector('form').addEventListener('submit', function(e) {
+    const highTeach = parseInt(document.querySelector('[name="higherTeachingPct"]').value) || 0;
+    const lowTeach = parseInt(document.querySelector('[name="lowerTeachingPct"]').value) || 0;
+    const highAssess = parseInt(document.querySelector('[name="higherAssessmentPct"]').value) || 0;
+    const lowAssess = parseInt(document.querySelector('[name="lowerAssessmentPct"]').value) || 0;
+
+    if (highTeach + lowTeach !== 100) {
+      e.preventDefault();
+      alert('Teaching percentages must add up to 100%');
+      return;
+    }
+    if (highAssess + lowAssess !== 100) {
+      e.preventDefault();
+      alert('Assessment percentages must add up to 100%');
+      return;
+    }
+  });
+});
+

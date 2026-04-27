@@ -1,3 +1,16 @@
+fieldset {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.2rem;
+}
+
+legend {
+  font-weight: 600;
+  color: #005030;
+  padding: 0 0.5rem;
+}
+
 <div class="card">
   <h1>Submission Confirmed</h1>
   <p><strong>Course:</strong> {{course.code}}</p>
@@ -5,6 +18,11 @@
   <p><strong>Semester:</strong> {{submission.semester}}</p>
   <p><strong>Status:</strong> {{submission.status}}</p>
   <p><strong>Syllabus:</strong> 
+  <p><strong>Higher-Level Teaching:</strong> {{submission.higherTeachingPct}}%</p>
+  <p><strong>Lower-Level Teaching:</strong> {{submission.lowerTeachingPct}}%</p>  
+  <p><strong>Higher-Level Assessment:</strong> {{submission.higherAssessmentPct}}%</p>
+  <p><strong>Lower-Level Assessment:</strong> {{submission.lowerAssessmentPct}}%</p>
+
   {{#if submission.syllabusFileName}}
     <a href="/faculty/{{submission.id}}/syllabus">{{submission.syllabusFileName}}</a>
   {{else}}
@@ -43,3 +61,7 @@
     <button type="submit" class="btn btn-primary">Upload Scores</button>
   </form>
 </div>
+
+
+
+
