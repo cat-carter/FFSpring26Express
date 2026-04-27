@@ -138,7 +138,7 @@ input[type="text"],
 input[type="email"],
 input[type="file"],
 select {
-  width: 100%;
+  max-width: 480px;
   padding: 0.6rem 0.8rem;
   border: 1px solid #ddd;
   border-radius: 6px;
@@ -152,6 +152,13 @@ input:focus, select:focus {
   border-color: #005030;
   box-shadow: 0 0 0 3px rgba(0,80,48,0.08);
 }
+
+input[type="number"] {
+  max-width: 100px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  appearance: textfield;
 
 
 .btn {
@@ -174,7 +181,8 @@ input:focus, select:focus {
 .btn-secondary:hover { background: #d4621a; }
 
 
-fieldset { border: 1px solid #ddd; border-radius: 6px; padding: 1.2rem; margin-bottom: 1.2rem; }
+fieldset { border: 1px solid #ddd; border-radius: 6px; padding: 1.2rem; margin-bottom: 1.2rem;
+display: flex; flex-wrap: wrap; gap: 1rem; }
 legend { font-weight: 600; font-size: 0.9rem; color: #005030; padding: 0 0.4rem; }
 
 .pct-row { display: flex; gap: 1rem; }
@@ -213,7 +221,7 @@ legend { font-weight: 600; font-size: 0.9rem; color: #005030; padding: 0 0.4rem;
   margin-bottom: 0.75rem;
 }
 .hero-title-row h1 { margin-bottom: 0; }
-.hero-card {padding: 2.5rem 2 rem;}
+.hero-card {padding: 2.5rem 2rem;}
 .hero-icon {color: #F47321; display: flex; align-items: center;}
 .hero-icon svg { width: 32px; height: 32px; }
 
