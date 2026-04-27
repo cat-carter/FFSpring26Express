@@ -186,6 +186,20 @@ legend { font-weight: 600; font-size: 0.9rem; color: #005030; padding: 0 0.4rem;
 .tracker-table td { padding: 0.7rem 1rem; border-bottom: 1px solid #eee; }
 .tracker-table tr:hover td { background: #f9f9f9; }
 
+.tracker-badge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+.badge-submitted { background: #d1e7dd; color: #0a5233; }
+.badge-missing   { background: #f8d7da; color: #842029; }
+.badge-complete  { background: #d1e7dd; color: #0a5233; }
+.badge-attention { background: #fff3cd; color: #856404; }
+.badge-pending   { background: #e2e8f0; color: #475569; }
+
 .status-badge { padding: 0.2rem 0.7rem; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
 .status-Pending   { background: #fff3cd; color: #856404; }
 .status-Submitted { background: #d1e7dd; color: #0a5233; }

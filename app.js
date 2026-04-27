@@ -449,11 +449,27 @@ app.get('/tracker', async function(req, res, next) {
   try {
     const submissions = await Submission.findAll({
       include: [Course],
-      order: [['createdAt', 'DESC']]
+      order: [['semester', 'ASC'], ['createdAt', 'DESC']]
     });
+
+    const semesterMap = {};
+    submissions.forEach(s => {
+      const sub = s.toJSON();
+      sub.hasDocuments = !!sub.syllabusFileName;
+      sub.hasScores = sub.status === 'Submitted';
+      if (sub.hasDocuments && sub.hasScores) sub.overallStatus = 'Completed';
+      else if (!sub.hasDocuments) sub.overallStatus = 'Needs Attention';
+      else sub.overallStatus = 'Pending';
+
+      if (!semesterMap[sub.semester]) {
+        semesterMap[sub.semester] = { semester: sub.semester, submissions: [] };
+      }
+      semesterMap[sub.semester].submissions.push(sub);
+    });
+
     res.render('tracker', {
       title: 'Submission Tracker',
-      submissions: submissions.map(s => s.toJSON())
+      semesters: Object.values(semesterMap)
     });
   } catch(err) { next(err); }
 });
