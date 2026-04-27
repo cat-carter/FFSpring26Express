@@ -410,6 +410,47 @@ app.get('/:name', function (req, res, next) {
   res.render('index', { title: req.params.name });
 });
 
+app.get('/admin', async function(req, res, next) {
+  try {
+    const totalSubmissions = await Submission.count();
+    const pendingCount = await Submission.count({ where: { status: 'Pending' } });
+    const completeCount = await Submission.count({ where: { status: 'Complete' } });
+    const totalScores = await StudentScore.count();
+
+    const scoresByCompetency = await StudentScore.findAll({
+      attributes: [
+        'CompetencyId',
+        [sequelize.fn('AVG', sequelize.col('score')), 'avgScore']
+      ],
+      include: [{ model: Competency, attributes: ['name', 'domain'] }],
+      group: ['CompetencyId', 'Competency.id'],
+      order: [[sequelize.fn('AVG', sequelize.col('score')), 'DESC']],
+      raw: true,
+      nest: true
+    });
+
+    const teachingStats = await Submission.findAll({
+      attributes: [
+        [sequelize.fn('AVG', sequelize.col('higherTeachingPct')), 'avgHigherTeaching'],
+        [sequelize.fn('AVG', sequelize.col('lowerTeachingPct')), 'avgLowerTeaching'],
+        [sequelize.fn('AVG', sequelize.col('higherAssessmentPct')), 'avgHigherAssessment'],
+        [sequelize.fn('AVG', sequelize.col('lowerAssessmentPct')), 'avgLowerAssessment']
+      ],
+      raw: true
+    });
+
+    res.render('admin', {
+      title: 'Admin Dashboard',
+      totalSubmissions,
+      pendingCount,
+      completeCount,
+      totalScores,
+      scoresJSON: JSON.stringify(scoresByCompetency),
+      teachingJSON: JSON.stringify(teachingStats[0])
+    });
+  } catch(err) { next(err); }
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
