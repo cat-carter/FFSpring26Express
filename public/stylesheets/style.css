@@ -160,6 +160,12 @@ input[type="number"] {
   text-align: center;
   appearance: textfield;
 
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}       
 
 .btn {
   display: inline-flex;
@@ -226,7 +232,7 @@ legend { font-weight: 600; font-size: 0.9rem; color: #005030; padding: 0 0.4rem;
 }
 .hero-title-row h1 { margin-bottom: 0; }
 .hero-card {padding: 2.5rem 2rem;}
-.hero-icon {color: #F47321; display: flex; align-items: center;}
+.hero-icon {color: #F47321; display: flex; align-items: left;}
 .hero-icon svg { width: 32px; height: 32px; }
 
 footer {
