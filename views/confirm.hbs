@@ -4,6 +4,20 @@
   <p><strong>Faculty:</strong> {{submission.facultyName}}</p>
   <p><strong>Semester:</strong> {{submission.semester}}</p>
   <p><strong>Status:</strong> {{submission.status}}</p>
+  <p><strong>Syllabus:</strong> 
+  {{#if submission.syllabusFileName}}
+    <a href="/faculty/{{submission.id}}/syllabus">{{submission.syllabusFileName}}</a>
+  {{else}}
+    Not uploaded
+  {{/if}}
+</p>
+<p><strong>Rubric:</strong>
+  {{#if submission.rubricFileName}}
+    <a href="/faculty/{{submission.id}}/rubric">{{submission.rubricFileName}}</a>
+  {{else}}
+    Not uploaded
+  {{/if}}
+</p>
 </div>
 
 <div class="card">

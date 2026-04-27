@@ -1,7 +1,7 @@
 <div class="card">
   <h1>Faculty Course Submission</h1>
 
-  <form method="POST" action="/faculty">
+  <form method="POST" action="/faculty" enctype="multipart/form-data">
     <div class="form-group">
       <label>Program</label>
       <select id="programSelect" name="program" required onchange="filterCourses()">
@@ -39,6 +39,16 @@
         <option value="Fall 2027">Fall 2027</option>
       </select>
     </div>
+
+<div class="form-group">
+  <label>Syllabus</label>
+  <input type="file" name="syllabusFile" accept=".pdf,.doc,.docx" />
+</div>
+
+<div class="form-group">
+  <label>Rubric</label>
+  <input type="file" name="rubricFile" accept=".pdf,.doc,.docx" />
+</div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>

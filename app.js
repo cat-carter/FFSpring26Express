@@ -92,6 +92,19 @@ const Submission = sequelize.define('Submission', {
  status: {
       type: DataTypes.STRING,
       defaultValue: 'Pending' },
+syllabusFile: { 
+    type: DataTypes.BLOB('long'), 
+    allowNull: true },
+syllabusFileName: { 
+    type: DataTypes.STRING, 
+    allowNull: true },
+rubricFile: { 
+    type: DataTypes.BLOB('long'), 
+    allowNull: true },
+rubricFileName: { 
+    type: DataTypes.STRING, 
+    allowNull: true },
+
 });
 
 const StudentScore = sequelize.define('StudentScore', {
@@ -292,14 +305,20 @@ app.get('/faculty',  async function(req, res, next) {
   }
 });
 
-app.post('/faculty', async function (req, res, next) {
+app.post('/faculty', upload.fields([{ name: 'syllabusFile', maxCount: 1 }, { name: 'rubricFile', maxCount: 1 }]), async function(req, res, next) {
   try {
     const { facultyName, facultyEmail, semester, courseId } = req.body;
-    const submission = await Submission.create({ facultyName, facultyEmail, semester, CourseId: courseId });
+    const syllabus = req.files['syllabusFile'] ? req.files['syllabusFile'][0] : null;
+    const rubric = req.files['rubricFile'] ? req.files['rubricFile'][0] : null;
+    const submission = await Submission.create({
+      facultyName, facultyEmail, semester, CourseId: courseId,
+      syllabusFile: syllabus ? syllabus.buffer : null,
+      syllabusFileName: syllabus ? syllabus.originalname : null,
+      rubricFile: rubric ? rubric.buffer : null,
+      rubricFileName: rubric ? rubric.originalname : null
+    });
     res.redirect('/faculty/' + submission.id + '/confirm');
-  } catch (err) {
-    next(err);
-  }
+  } catch (err) { next(err); }
 });
 
 app.get('/faculty/:id/confirm', async function(req, res, next) {
@@ -351,6 +370,25 @@ app.post('/faculty/:id/scores', upload.single('csvFile'), async function(req, re
     }
     await Submission.update({ status: 'Submitted' }, { where: { id: req.params.id } });
     res.redirect('/faculty/' + req.params.id + '/confirm');
+  } catch(err) { next(err); }
+});
+
+
+app.get('/faculty/:id/syllabus', async function(req, res, next) {
+  try {
+    const submission = await Submission.findByPk(req.params.id);
+    if (!submission || !submission.syllabusFile) return next(createError(404));
+    res.setHeader('Content-Disposition', `attachment; filename="${submission.syllabusFileName}"`);
+    res.send(submission.syllabusFile);
+  } catch(err) { next(err); }
+});
+
+app.get('/faculty/:id/rubric', async function(req, res, next) {
+  try {
+    const submission = await Submission.findByPk(req.params.id);
+    if (!submission || !submission.rubricFile) return next(createError(404));
+    res.setHeader('Content-Disposition', `attachment; filename="${submission.rubricFileName}"`);
+    res.send(submission.rubricFile);
   } catch(err) { next(err); }
 });
 
