@@ -423,25 +423,6 @@ app.get('/admin', async function(req, res, next) {
       nest: true
     });
 
-    app.get('/tracker', async function(req, res, next) {
-  try {
-    const submissions = await Submission.findAll({
-      include: [Course],
-      order: [['createdAt', 'DESC']]
-    });
-    res.render('tracker', {
-      title: 'Submission Tracker',
-      submissions: submissions.map(s => s.toJSON())
-    });
-  } catch(err) { next(err); }
-});
-
-app.get('/:name', function (req, res, next) {
-  console.log(req);
-  res.render('index', { title: req.params.name });
-});
-
-
     const teachingStats = await Submission.findAll({
       attributes: [
         [sequelize.fn('AVG', sequelize.col('higherTeachingPct')), 'avgHigherTeaching'],
@@ -464,6 +445,22 @@ app.get('/:name', function (req, res, next) {
   } catch(err) { next(err); }
 });
 
+app.get('/tracker', async function(req, res, next) {
+  try {
+    const submissions = await Submission.findAll({
+      include: [Course],
+      order: [['createdAt', 'DESC']]
+    });
+    res.render('tracker', {
+      title: 'Submission Tracker',
+      submissions: submissions.map(s => s.toJSON())
+    });
+  } catch(err) { next(err); }
+});
+
+app.get('/:name', function (req, res, next) {
+  res.render('index', { title: req.params.name });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -472,11 +469,8 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
