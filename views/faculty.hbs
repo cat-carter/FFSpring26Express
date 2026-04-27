@@ -1,87 +1,150 @@
 <main>
-<div class="card">
-  <h1>Faculty Course Submission</h1>
+  <div class="card">
+    <h1>Faculty Course Submission</h1>
 
   <form method="POST" action="/faculty" enctype="multipart/form-data">
-    <div class="form-group">
-      <label>Program</label>
-      <select id="programSelect" name="program" required onchange="filterCourses()">
-        <option value="">-- Select program --</option>
-        <option value="MHA">MHA</option>
-        <option value="HEMBA">HEMBA</option>
-  </select>
-</div>
-
-<div class="form-group">
-  <label>Course</label>
-  <select id="courseSelect" name="courseId" required disabled>
-    <option value="">-- Select program first --</option>
-  </select>
-</div>
-
-    <div class="form-group">
-      <label>Faculty Name</label>
-      <input type="text" name="facultyName" required />
+    <div class="section-header">
+      <i data-lucide="layout-grid"></i> 
+      <h2>Course Information</h2>
     </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Program</label>
+          <select id="programSelect" name="program" required onchange="filterCourses()">
+            <option value="">-- Select program --</option>
+            <option value="MHA">MHA</option>
+            <option value="HEMBA">HEMBA</option>
+          </select>
+        </div>
 
-    <div class="form-group">
-      <label>Faculty Email</label>
-      <input type="email" name="facultyEmail" required />
+        <div class="form-group">
+          <label>Course</label>
+          <select id="courseSelect" name="courseId" required disabled>
+            <option value="">-- Select program first --</option>
+          </select>
+        </div>
+      </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Faculty Name</label>
+        <input type="text" name="facultyName" required />
+      </div>
+
+      <div class="form-group">
+        <label>Faculty Email</label>
+        <input type="email" name="facultyEmail" required />
+      </div>
     </div>
+   
 
-    <div class="form-group">
-      <label>Semester</label>
-      <select name="semester" required>
-        <option value="">-- Select semester --</option>
-        <option value="Spring 2026">Spring 2026</option>
-        <option value="Summer 2026">Summer 2026</option>
-        <option value="Fall 2026">Fall 2026</option>
-        <option value="Spring 2027">Spring 2027</option>
-        <option value="Fall 2027">Fall 2027</option>
-      </select>
+      <div class="section-header">
+        <i data-lucide="calendar"></i>
+        <h2>Semester Information</h2>
+      </div>
+      <div class="form-group">
+        <label>Semester</label>
+        <select name="semester" required>
+          <option value="">-- Select semester --</option>
+          <option value="Spring 2026">Spring 2026</option>
+          <option value="Summer 2026">Summer 2026</option>
+          <option value="Fall 2026">Fall 2026</option>
+          <option value="Spring 2027">Spring 2027</option>
+          <option value="Fall 2027">Fall 2027</option>
+        </select>
+      </div>
+
+<br>
+
+    <div class="section-header">
+      <i data-lucide="file-text"></i>
+      <h2>Course Materials</h2>
     </div>
+      
+      <div class="form-grid">
+      <div class="form-group">
+        <label>Syllabus</label>
+        <div class="file-upload-wrapper">
+          <button type="button" class="btn btn-outline" onclick="document.getElementById('syllabusFile').click()">
+            <i data-lucide="upload-cloud"></i> Upload Syllabus
+          </button>
+           <input type="file" id="syllabusFile" name="syllabusFile" accept=".pdf,.doc,.docx" style="display:none" onchange="updateFileName('syllabusFile', 'syllabusFileName')" />
+            <span class="file-name" id="syllabusFileName">No file chosen</span>
+           </div>
+            <p class="helper-text"> Accepted formats: .pdf, .doc, .docx</p>
+            </div>
 
-<div class="form-group">
-  <label>Syllabus</label>
-  <input type="file" name="syllabusFile" accept=".pdf,.doc,.docx" />
-</div>
+         
+      <div class="form-group">
+        <label>Rubric</label>
+        <div class="file-upload-wrapper">
+          <button type="button" class="btn btn-outline" onclick="document.getElementById('rubricFile').click()">
+            <i data-lucide="upload-cloud"></i> Upload Rubric
+          </button>
+           <input type="file" id="rubricFile" name="rubricFile" accept=".pdf,.doc,.docx" style="display:none" onchange="updateFileName('rubricFile', 'rubricFileName')" />
+            <span class="file-name" id="rubricFileName">No file chosen</span>
+           </div>
+            <p class="helper-text"> Accepted formats: .pdf, .doc, .docx</p>
+            </div>  
+        </div>
 
-<div class="form-group">
-  <label>Rubric</label>
-  <input type="file" name="rubricFile" accept=".pdf,.doc,.docx" />
-</div>
+    <br>
 
-<fieldset>
-  <legend>Teaching & Learning Methods</legend>
+     <div class="section-header">
+      <i data-lucide="bar-chart-2"></i>
+      <h2>Teaching & Learning Methods</h2> 
+     </div> 
 
-  <div class="form-group">
-    <label>Higher-Level Teaching/Learning %</label>
-    <input type="number" name="higherTeachingPct" min="0" max="100" required />
+        <div class="form-group">
+          <label>Higher-Level Teaching/Learning %</label>
+        <div class="input-with-suffix">
+          <input type="number" name="higherTeachingPct" min="0" max="100" required />
+          <span class="suffix">%</span>   
+      <p class="helper-text">Higher-level methods include: case studies, simulations, projects, presentations, research papers, etc.</p>
+        </div>
+        </div>
+        
+
+        <div class="form-group">
+          <label>Lower-Level Teaching/Learning %</label>
+        <div class="input-with-suffix">
+          <input type="number" name="lowerTeachingPct" min="0" max="100" required />
+          <span class="suffix">%</span> 
+      <p class="helper-text">Lower-level methods include: lectures, readings, videos, etc.</p>  
+        </div>
+      </div>
+
+     <br>
+
+     <div class="section-header">
+      <i data-lucide="check-square"></i>
+      <h2>Assessment Methods</h2>
+     </div> 
+
+        <div class="form-group">
+          <label>Higher-Level Assessment %</label>
+        <div class="input-with-suffix"> 
+          <input type="number" name="higherAssessmentPct" min="0" max="100" required />
+          <span class="suffix">%</span> 
+      <p class="helper-text">Higher-level methods include: case studies, simulations, projects, presentations, research papers, etc.</p>
+        </div>
+        </div>  
+
+        <div class="form-group">
+          <label>Lower-Level Assessment %</label>
+        <div class="input-with-suffix">
+          <input type="number" name="lowerAssessmentPct" min="0" max="100" required />
+          <span class="suffix">%</span> 
+      <p class="helper-text">Lower-level methods include: multiple-choice exams, quizzes, worksheets, etc.</p>  
+        </div>
+        </div>
+
+      
+    <div class="form-submit">
+      <button type="submit" class="btn btn-primary btn-large">Submit</button>
+      </div>
+    </form>
   </div>
-
-  <div class="form-group">
-    <label>Lower-Level Teaching/Learning %</label>
-    <input type="number" name="lowerTeachingPct" min="0" max="100" required />
-  </div>
-</fieldset>
-
-<fieldset>
-  <legend>Assessment Methods</legend>
-
-  <div class="form-group">
-    <label>Higher-Level Assessment %</label>
-    <input type="number" name="higherAssessmentPct" min="0" max="100" required />
-  </div>
-
-  <div class="form-group">
-    <label>Lower-Level Assessment %</label>
-    <input type="number" name="lowerAssessmentPct" min="0" max="100" required />
-  </div>
-</fieldset>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-</div>
 </main>
 
 <script>const allCourses = {{{coursesJSON}}};</script>

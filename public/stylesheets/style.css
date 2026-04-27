@@ -242,3 +242,53 @@ footer {
   padding: 0.8rem;
   font-size: 0.8rem;
 }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.8rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+ 
+}
+.section-header h2 { margin-bottom: 0; }  
+.section-header svg { width: 18px; height: 18px; color: #005030; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+} 
+
+.form-grid select,
+.form-grid input[type="text"],
+.form-grid input[type="email"],
+.form-grid input[type="file"] {
+max-width: 100%;
+width: 100%;
+}
+
+..file-upload-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.73rem;
+} 
+.file-name { font-size: 0.85rem; color: #666;}
+
+.btn-outline {
+  background: #fff;
+  border: 1.5px solid #005030;
+  color: #005030;
+}
+.btn-outline:hover { background: #f0f7f4;}
+ 
+.input-with-suffix {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.suffix { font-weight: 600; color: #555; font-size: 1rem; }
+
+.form-submit { margin-top: 2rem; }
+.btn-large { padding: 0.8rem 2rem; font-size: 1rem; }
