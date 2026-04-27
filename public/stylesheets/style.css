@@ -181,7 +181,7 @@ input[type="number"] {
 .btn-secondary:hover { background: #d4621a; }
 
 
-fieldset { border: 1px solid #ddd; border-radius: 6px; padding: 1.2rem; margin-bottom: 1.2rem;
+fieldset { border: 1px solid #ddd; border-radius: 6px; padding: 1.5rem; margin-bottom: 1.5rem;
 display: flex; flex-wrap: wrap; gap: 1rem; }
 legend { font-weight: 600; font-size: 0.9rem; color: #005030; padding: 0 0.4rem; }
 
@@ -193,6 +193,10 @@ legend { font-weight: 600; font-size: 0.9rem; color: #005030; padding: 0 0.4rem;
 .tracker-table th { background: #005030; color: #fff; padding: 0.7rem 1rem; text-align: left; }
 .tracker-table td { padding: 0.7rem 1rem; border-bottom: 1px solid #eee; }
 .tracker-table tr:hover td { background: #f9f9f9; }
+.tracker-table th:nth-child(1), .tracker-table td:nth-child(1) { min-width: 90px; }
+.tracker-table th:nth-child(2), .tracker-table td:nth-child(2) { min-width: 60px; }
+.tracker-table th:nth-child(4), .tracker-table td:nth-child(4) { min-width: 150px; }
+.tracker-table th:nth-child(5), .tracker-table td:nth-child(5) { min-width: 140px; }
 
 .tracker-badge {
   display: inline-block;
