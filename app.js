@@ -404,12 +404,6 @@ app.get('/faculty/:id/rubric', async function(req, res, next) {
   } catch(err) { next(err); }
 });
 
-
-app.get('/:name', function (req, res, next) {
-  console.log(req);
-  res.render('index', { title: req.params.name });
-});
-
 app.get('/admin', async function(req, res, next) {
   try {
     const totalSubmissions = await Submission.count();
@@ -428,6 +422,12 @@ app.get('/admin', async function(req, res, next) {
       raw: true,
       nest: true
     });
+
+app.get('/:name', function (req, res, next) {
+  console.log(req);
+  res.render('index', { title: req.params.name });
+});
+
 
     const teachingStats = await Submission.findAll({
       attributes: [
