@@ -1,0 +1,98 @@
+<main>
+  <div class="card">
+    <h1>Admin Dashboard</h1>
+
+    <div class="stat-cards">
+      <div class="stat-card">
+        <div class="stat-number">{{totalSubmissions}}</div>
+        <div class="stat-label">Total Submissions</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{pendingCount}}</div>
+        <div class="stat-label">Pending</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{completeCount}}</div>
+        <div class="stat-label">Complete</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{totalScores}}</div>
+        <div class="stat-label">Scores Entered</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Average Score by Competency</h2>
+    <canvas id="competencyChart"></canvas>
+  </div>
+
+  <div class="chart-row">
+    <div class="card">
+      <h2>Teaching Methods</h2>
+      <canvas id="teachingChart"></canvas>
+    </div>
+    <div class="card">
+      <h2>Assessment Methods</h2>
+      <canvas id="assessmentChart"></canvas>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const scores = {{{scoresJSON}}};
+  const teaching = {{{teachingJSON}}};
+
+  // Bar chart — competency averages
+  const compLabels = scores.map(s => s.Competency.name);
+  const compData = scores.map(s => parseFloat(s.avgScore).toFixed(2));
+
+  new Chart(document.getElementById('competencyChart'), {
+    type: 'bar',
+    data: {
+      labels: compLabels,
+      datasets: [{
+        label: 'Avg Score (1–3)',
+        data: compData,
+        backgroundColor: '#005030',
+        borderRadius: 4
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      scales: { x: { min: 0, max: 3 } },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  // Doughnut — teaching methods
+  new Chart(document.getElementById('teachingChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Higher-Level', 'Lower-Level'],
+      datasets: [{
+        data: [
+          parseFloat(teaching.avgHigherTeaching || 0).toFixed(1),
+          parseFloat(teaching.avgLowerTeaching || 0).toFixed(1)
+        ],
+        backgroundColor: ['#005030', '#F47321']
+      }]
+    }
+  });
+
+  // Doughnut — assessment methods
+  new Chart(document.getElementById('assessmentChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Higher-Level', 'Lower-Level'],
+      datasets: [{
+        data: [
+          parseFloat(teaching.avgHigherAssessment || 0).toFixed(1),
+          parseFloat(teaching.avgLowerAssessment || 0).toFixed(1)
+        ],
+        backgroundColor: ['#005030', '#F47321']
+      }]
+    }
+  });
+</script>
