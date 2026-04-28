@@ -337,18 +337,6 @@ app.post('/faculty', upload.fields([{ name: 'syllabusFile', maxCount: 1 }, { nam
   } catch (err) { next(err); }
 });
 
-app.get('/fix-teaching-data', async function(req, res, next) {
-  try {
-    await Submission.update({
-      higherTeachingPct: 65,
-      lowerTeachingPct: 35,
-      higherAssessmentPct: 70,
-      lowerAssessmentPct: 30
-    }, { where: {} });
-    res.send('Done — teaching/assessment data updated for all submissions.');
-  } catch(err) { next(err); }
-});
-
 app.get('/faculty/:id/confirm', async function(req, res, next) {
   try {
     const submission = await Submission.findByPk(req.params.id, {
