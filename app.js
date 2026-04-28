@@ -379,6 +379,7 @@ app.post('/faculty/:id/scores', upload.single('csvFile'), async function(req, re
       for (let j = 1; j < values.length; j++) {
         const score = parseInt(values[j]);
         const compName = headers[j];
+        console.log(studentId, compName, score, !!compMap[compName]);
         if (!score || !compMap[compName]) continue;
         await StudentScore.create({ studentID:studentId, score, SubmissionId: req.params.id, CompetencyId: compMap[compName] });
       }
