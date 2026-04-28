@@ -368,6 +368,7 @@ app.post('/faculty/:id/scores', upload.single('csvFile'), async function(req, re
     const headers = lines[0].split(',').map(h => h.trim());
     const competencyNames = headers.slice(1);
     const comps = await Competency.findAll({ where: { name: competencyNames } });
+    console.log('Found comps:', comps.length, 'for names:', competencyNames);
     const compMap = {};
     comps.forEach(c => { compMap[c.name] = c.id; });
 
