@@ -296,14 +296,6 @@ async function seedDB() {
 syncDB().then(() => seedDB())
 .catch(console.error);
 
-
-app.get('/clear-test-data', async (req, res) => {
-  await StudentScore.destroy({ where: {} });
-  await Submission.destroy({ where: {} });
-  res.send('Done — all test submissions cleared.');
-});
-
-
 /* GET home page. */
 app.get('/', function (req, res, next) {
   res.render('index', { title: 'Accreditation Compass' });
