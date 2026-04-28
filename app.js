@@ -327,10 +327,26 @@ app.post('/faculty', upload.fields([{ name: 'syllabusFile', maxCount: 1 }, { nam
       syllabusFile: syllabus ? syllabus.buffer : null,
       syllabusFileName: syllabus ? syllabus.originalname : null,
       rubricFile: rubric ? rubric.buffer : null,
-      rubricFileName: rubric ? rubric.originalname : null
+      rubricFileName: rubric ? rubric.originalname : null,
+      higherTeachingPct: parseInt(higherTeachingPct) || 0,
+      lowerTeachingPct: parseInt(lowerTeachingPct) || 0,
+      higherAssessmentPct: parseInt(higherAssessmentPct) || 0,
+      lowerAssessmentPct: parseInt(lowerAssessmentPct) || 0,
     });
     res.redirect('/faculty/' + submission.id + '/confirm');
   } catch (err) { next(err); }
+});
+
+app.get('/fix-teaching-data', async function(req, res, next) {
+  try {
+    await Submission.update({
+      higherTeachingPct: 65,
+      lowerTeachingPct: 35,
+      higherAssessmentPct: 70,
+      lowerAssessmentPct: 30
+    }, { where: {} });
+    res.send('Done — teaching/assessment data updated for all submissions.');
+  } catch(err) { next(err); }
 });
 
 app.get('/faculty/:id/confirm', async function(req, res, next) {
@@ -477,6 +493,7 @@ app.get('/tracker', async function(req, res, next) {
     });
   } catch(err) { next(err); }
 });
+
 
 app.get('/:name', function (req, res, next) {
   res.render('index', { title: req.params.name });
