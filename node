@@ -1,0 +1,3 @@
+◇ injected env (3) from .env // tip: ⌘ enable debugging { debug: true }
+[0mGET /?id=d4bed04d-86fa-40f5-b68a-c494d3a00051&vscodeBrowserReqId=1777338095127 [32m200 [0m12.533 ms - 3478[0m
+[0mGET /stylesheets/style.css [36m304 [0m1.617 ms - -[0m

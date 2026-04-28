@@ -494,3 +494,10 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
+app.get('/clear-test-data', async (req, res) => {
+  await StudentScore.destroy({ where: {} });
+  await Submission.destroy({ where: {} });
+  res.send('Done — all test submissions cleared.');
+});
