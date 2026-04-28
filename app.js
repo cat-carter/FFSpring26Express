@@ -432,8 +432,6 @@ const lowComp = await StudentScore.findOne({
 });
 const topCompetency = topComp ? topComp.Competency.name : 'N/A';
 const lowCompetency = lowComp ? lowComp.Competency.name : 'N/A';
-const avgScoreOverall = avgResult && avgResult.avgScore ? parseFloat(avgResult.avgScore).toFixed(2) : 'N/A';
-    const totalScores = await StudentScore.count();
 
     const scoresByCompetency = await StudentScore.findAll({
       attributes: [
