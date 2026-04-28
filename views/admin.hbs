@@ -7,17 +7,18 @@
         <div class="stat-number">{{totalSubmissions}}</div>
         <div class="stat-label">Total Submissions</div>
       </div>
+
       <div class="stat-card">
-        <div class="stat-number">{{pendingCount}}</div>
-        <div class="stat-label">Pending</div>
+        <div class="stat-number">{{studentsAssessed}}</div>
+        <div class="stat-label">Students Assessed</div> 
       </div>
       <div class="stat-card">
-        <div class="stat-number">{{completeCount}}</div>
-        <div class="stat-label">Complete</div>
+        <div class="stat-number">{{topCompetency}}</div>
+        <div class="stat-label">Top Competency</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">{{totalScores}}</div>
-        <div class="stat-label">Scores Entered</div>
+        <div class="stat-number">{{lowCompetency}}</div>
+        <div class="stat-label">Lowest Competency</div>   
       </div>
     </div>
   </div>
@@ -39,8 +40,12 @@
   </div>
 </main>
 
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>  
+ 
 <script>
+  Chart.register(ChartDataLabels);
   const scores = {{{scoresJSON}}};
   const teaching = {{{teachingJSON}}};
 
@@ -66,8 +71,7 @@
     }
   });
 
-  // Doughnut — teaching methods
-  new Chart(document.getElementById('teachingChart'), {
+   new Chart(document.getElementById('teachingChart'), {
     type: 'doughnut',
     data: {
       labels: ['Higher-Level', 'Lower-Level'],
@@ -78,11 +82,16 @@
         ],
         backgroundColor: ['#005030', '#F47321']
       }]
+    },
+    options: {
+      plugins: {
+        datalabels: { color: '#fff', font: { weight: 'bold', size: 14 }, formatter: v => v + '%' }
+      }
     }
   });
 
-  // Doughnut — assessment methods
-  new Chart(document.getElementById('assessmentChart'), {
+
+ new Chart(document.getElementById('assessmentChart'), {
     type: 'doughnut',
     data: {
       labels: ['Higher-Level', 'Lower-Level'],
@@ -93,6 +102,11 @@
         ],
         backgroundColor: ['#005030', '#F47321']
       }]
+    },
+    options: {
+      plugins: {
+        datalabels: { color: '#fff', font: { weight: 'bold', size: 14 }, formatter: v => v + '%' }
+      }
     }
   });
 </script>

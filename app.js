@@ -415,8 +415,24 @@ app.get('/faculty/:id/rubric', async function(req, res, next) {
 app.get('/admin', async function(req, res, next) {
   try {
     const totalSubmissions = await Submission.count();
-    const pendingCount = await Submission.count({ where: { status: 'Pending' } });
-    const completeCount = await Submission.count({ where: { status: 'Complete' } });
+const studentsAssessed = await StudentScore.count({ distinct: true, col: 'studentID' });
+const topComp = await StudentScore.findOne({
+  attributes: ['CompetencyId', [sequelize.fn('AVG', sequelize.col('score')), 'avgScore']],
+  include: [{ model: Competency, attributes: ['name'] }],
+  group: ['CompetencyId', 'Competency.id'],
+  order: [[sequelize.fn('AVG', sequelize.col('score')), 'DESC']],
+  raw: true, nest: true
+});
+const lowComp = await StudentScore.findOne({
+  attributes: ['CompetencyId', [sequelize.fn('AVG', sequelize.col('score')), 'avgScore']],
+  include: [{ model: Competency, attributes: ['name'] }],
+  group: ['CompetencyId', 'Competency.id'],
+  order: [[sequelize.fn('AVG', sequelize.col('score')), 'ASC']],
+  raw: true, nest: true
+});
+const topCompetency = topComp ? topComp.Competency.name : 'N/A';
+const lowCompetency = lowComp ? lowComp.Competency.name : 'N/A';
+const avgScoreOverall = avgResult && avgResult.avgScore ? parseFloat(avgResult.avgScore).toFixed(2) : 'N/A';
     const totalScores = await StudentScore.count();
 
     const scoresByCompetency = await StudentScore.findAll({
@@ -444,9 +460,9 @@ app.get('/admin', async function(req, res, next) {
     res.render('admin', {
       title: 'Admin Dashboard',
       totalSubmissions,
-      pendingCount,
-      completeCount,
-      totalScores,
+      studentsAssessed,
+      topCompetency,
+      lowCompetency,
       scoresJSON: JSON.stringify(scoresByCompetency),
       teachingJSON: JSON.stringify(teachingStats[0])
     });
