@@ -339,9 +339,11 @@ app.get('/faculty/:id/confirm', async function(req, res, next) {
       include: [{ model: Course, include: [{ model: Competency, through: { where: { type: 'Primary' } } }] }]
     });
     if (!submission) return next(createError(404));
+    const sub = submission.toJSON();
+    sub.createdAt = new Date(submission.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     res.render('confirm', {
       title: 'Submission Confirmed',
-      submission: submission,
+      submission: sub,
       course: submission.Course,
       competencies: submission.Course.Competencies
     });
