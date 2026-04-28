@@ -93,11 +93,20 @@
     <i data-lucide="info"></i>
   <p>At the end of the semester, you can upload the completed CSV file through your faculty dashboard.</p>
     </div>
+  
+<br>
+
+ <hr class="section-divider">
+ <br>
+  <h3 class="upload-heading">Upload Completed Scores</h3>
+  <p class="card-subtitle">Once you have filled in the CSV template, upload it here.</p>
+  <form action="/faculty/{{submission.id}}/scores" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      <input type="file" name="csvFile" accept=".csv" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Upload Scores</button>
+  </form>
   </div>  
 
-<div class="confirm-footer">
- <i data-lucide="check"></i>
- <p>Thank you! Your submission help us ensures program quality, continuous improvement accreditation compliance.</p>
 </div>  
-
 </main> 
