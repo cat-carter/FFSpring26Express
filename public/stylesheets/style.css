@@ -245,8 +245,8 @@ legend { font-weight: 600; font-size: 0.9rem; color: #005030; padding: 0 0.4rem;
 .hero-icon svg { width: 32px; height: 32px; }
 
 footer {
-  background: #005030;
-  color: rgba(255,255,255,0.6);
+  background: #f5f5f5;
+  color: #005030;
   text-align: center;
   padding: 0.8rem;
   font-size: 0.8rem;
